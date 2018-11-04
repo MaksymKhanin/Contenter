@@ -6,6 +6,19 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http;
+using System.Web.Mvc;
+using System.Web.Optimization;
+using System.Web.Routing;
+using System.Data.Entity;
+using Contenter.Models;
+using Contenter.Models.Context;
+using Ninject.Modules;
+using Contenter.Util;
+using Ninject;
+using Ninject.Web.Mvc;
+using Ninject.Web.Common;
+
 
 namespace Contenter
 {
@@ -13,11 +26,21 @@ namespace Contenter
     {
         protected void Application_Start()
         {
+            Context db = new Context();
+            db.Database.Initialize(true);
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            NinjectModule registrations = new NinjectRegistrations();
+            var kernel = new StandardKernel(registrations);
+            var ninjectResolver = new Ninject.Web.Mvc.NinjectDependencyResolver(kernel);
+           
+
+            DependencyResolver.SetResolver(ninjectResolver);
         }
     }
 }
