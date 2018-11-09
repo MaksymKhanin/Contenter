@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Contenter.Models;
 using Contenter.Infrastructure.Repository.DI.Abstract;
-using Contenter.Models.Context;
+
 
 namespace Contenter.Controllers.Api
 {

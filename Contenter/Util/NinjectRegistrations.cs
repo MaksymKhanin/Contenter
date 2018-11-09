@@ -6,7 +6,6 @@ using Ninject.Modules;
 using Contenter.Models;
 using Contenter.Infrastructure.Repository.DI.Abstract;
 using Contenter.Infrastructure.Repository.DI.Implementation;
-using Contenter.Models.Context;
 
 
 namespace Contenter.Util

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using Contenter.Models.Context;
 using Contenter.Models;
 using Contenter.Infrastructure.Repository.DI.Abstract;
 
@@ -11,9 +10,9 @@ namespace Contenter.Infrastructure.Repository.DI.Implementation
 {
     public class UserRepository: IRepository<User>
     {
-        private Context db;
+        private ApplicationDbContext db;
 
-        public UserRepository(Context context)
+        public UserRepository(ApplicationDbContext context)
         {
             this.db = context;
         }

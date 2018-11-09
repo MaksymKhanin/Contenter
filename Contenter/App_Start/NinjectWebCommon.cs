@@ -21,7 +21,7 @@ namespace Contenter.App_Start
     using Ninject.Web.WebApi;
     using Contenter.Infrastructure.Repository.DI.Abstract;
     using Contenter.Infrastructure.Repository.DI.Implementation;
-    using Contenter.Models.Context;
+
 
     public class NinjectWebCommon
     {

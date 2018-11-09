@@ -12,7 +12,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Data.Entity;
 using Contenter.Models;
-using Contenter.Models.Context;
 using Ninject.Modules;
 using Contenter.Util;
 using Ninject;
@@ -26,8 +25,8 @@ namespace Contenter
     {
         protected void Application_Start()
         {
-            Context db = new Context();
-            //db.Database.Initialize(true);
+            ApplicationDbContext db = new ApplicationDbContext();
+            
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);

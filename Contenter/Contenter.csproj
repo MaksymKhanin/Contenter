@@ -232,8 +232,16 @@
     </Compile>
     <Compile Include="Infrastructure\Repository\DI\Abstract\IRepository.cs" />
     <Compile Include="Infrastructure\Repository\DI\Implementation\UserRepository.cs" />
+    <Compile Include="Migrations\201811091453181_InitialCreate.cs" />
+    <Compile Include="Migrations\201811091453181_InitialCreate.Designer.cs">
+      <DependentUpon>201811091453181_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811091533091_DataMigration.cs" />
+    <Compile Include="Migrations\201811091533091_DataMigration.Designer.cs">
+      <DependentUpon>201811091533091_DataMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Context\Context.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\User.cs" />
@@ -329,6 +337,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811091453181_InitialCreate.resx">
+      <DependentUpon>201811091453181_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811091533091_DataMigration.resx">
+      <DependentUpon>201811091533091_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

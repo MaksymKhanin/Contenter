@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc;
 using Contenter.Models;
 using Contenter.Infrastructure.Repository.DI.Abstract;
-using Contenter.Models.Context;
+
 
 
 namespace Contenter.Controllers

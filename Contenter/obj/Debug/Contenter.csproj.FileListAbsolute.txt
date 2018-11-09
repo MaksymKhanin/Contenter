@@ -159,7 +159,6 @@ D:\Contenter\Contenter\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
 D:\Contenter\Contenter\bin\roslyn\Microsoft.VisualBasic.Core.targets
 D:\Contenter\Contenter\bin\roslyn\Microsoft.Win32.Primitives.dll
 D:\Contenter\Contenter\bin\roslyn\System.AppContext.dll
-D:\Contenter\Contenter\bin\roslyn\System.Collections.Immutable.dll
 D:\Contenter\Contenter\bin\roslyn\System.Console.dll
 D:\Contenter\Contenter\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
 D:\Contenter\Contenter\bin\roslyn\System.Diagnostics.Process.dll
@@ -271,8 +270,12 @@ D:\Contenter\Contenter\bin\Microsoft.AI.DependencyCollector.xml
 D:\Contenter\Contenter\bin\Microsoft.AI.WindowsServer.xml
 D:\Contenter\Contenter\bin\Microsoft.AI.Web.xml
 D:\Contenter\Contenter\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Contenter\Contenter\obj\Debug\Contenter.csprojAssemblyReference.cache
 D:\Contenter\Contenter\obj\Debug\Contenter.csproj.CoreCompileInputs.cache
 D:\Contenter\Contenter\obj\Debug\Contenter.csproj.CopyComplete
 D:\Contenter\Contenter\obj\Debug\Contenter.dll
 D:\Contenter\Contenter\obj\Debug\Contenter.pdb
+D:\Contenter\Contenter\bin\roslyn\System.Collections.Immutable.dll
+D:\Contenter\Contenter\obj\Debug\Contenter.csprojAssemblyReference.cache
+D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.InitialCreate.resources
+D:\Contenter\Contenter\obj\Debug\Contenter.csproj.GenerateResource.cache
+D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.DataMigration.resources
