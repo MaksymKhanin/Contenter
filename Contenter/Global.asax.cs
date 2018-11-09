@@ -27,7 +27,7 @@ namespace Contenter
         protected void Application_Start()
         {
             Context db = new Context();
-            db.Database.Initialize(true);
+            //db.Database.Initialize(true);
 
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
