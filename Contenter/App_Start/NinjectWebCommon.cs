@@ -81,7 +81,7 @@ namespace Contenter.App_Start
             DependencyResolver.SetResolver(new Util.NinjectDependencyResolver(kernel));
 
             kernel.Bind<IRepository<User>>().To<UserRepository>();
-
+            kernel.Bind<IRepository<Video>>().To<VideoRepository>();
 
         }
     }

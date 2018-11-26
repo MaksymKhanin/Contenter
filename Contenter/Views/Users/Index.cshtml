@@ -1,5 +1,52 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-<h2>Index</h2>
+<div class="col-md-4">
 
-<my-app>Loading AppComponent content here ...</my-app>
+    <div class=" col-sm-8">
+        <h2 class="contenter">Contentor</h2>
+        <img src="~/Content/MaxPhoto.jpg" class="img-circle img-responsive userPhotoFrame">
+        <h4 class="UserNickName">Максим Ханин</h4>
+        <div class="col-sm-6 Follow">
+            Followers<br>
+            <h4>125M</h4>
+        </div>
+        <div class="col-sm-6 Follow">Following<br><h4>300</h4></div>
+        <div class="search">
+            <input type="text" class="searchTerm" placeholder="Search">
+        </div>
+
+    </div>
+    <div class=" col-sm-4"></div>
+</div>
+<div class="col-md-8 ">
+    <div class="col-sm-12 content-block"><h3 style="margin-top:50px">Content</h3></div>
+    <input id="txtLink" type="text" placeholder="Insert a link here..."></input>
+    <button id="buttonSubmit">Submit</button>
+</div>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#buttonSubmit").click(function () {
+
+            var video = { Link: $("#txtLink").val() };
+
+            $.ajax
+                ({
+                    url: 'http://localhost:56222/api/VideoApi/PostVideo/',
+                    data: JSON.stringify(video),
+                    type: 'post',
+                    contentType: "application/json;charset=utf-8",
+                    success: function () {
+                        alert("Added successfully");
+                    }
+                });
+        });
+    });
+
+</script>

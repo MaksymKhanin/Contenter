@@ -346,8 +346,7 @@ namespace Contenter.Controllers
         }
 
         private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
+        {            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error);
             }

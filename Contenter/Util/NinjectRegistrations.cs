@@ -15,7 +15,7 @@ namespace Contenter.Util
         public override void Load()
         {
             Bind<IRepository<User>>().To<UserRepository>();
-
+            Bind<IRepository<Video>>().To<VideoRepository>();
         }
     }
 }

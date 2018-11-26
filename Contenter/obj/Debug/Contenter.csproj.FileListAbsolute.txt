@@ -279,3 +279,6 @@ D:\Contenter\Contenter\obj\Debug\Contenter.csprojAssemblyReference.cache
 D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.InitialCreate.resources
 D:\Contenter\Contenter\obj\Debug\Contenter.csproj.GenerateResource.cache
 D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.DataMigration.resources
+D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.AddCompanyMigration2.resources
+D:\Contenter\Contenter\bin\Ninject.Web.WebApi.WebHost.dll
+D:\Contenter\Contenter\bin\Ninject.Web.WebApi.WebHost.xml

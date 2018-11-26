@@ -21,6 +21,7 @@ namespace Contenter.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Video> Videos { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -42,6 +43,11 @@ namespace Contenter.Models
             // создаем две роли
             var role1 = new IdentityRole { Name = "admin" };
             var role2 = new IdentityRole { Name = "user" };
+
+            // создаем Video
+            var video1 = new Video { Link= "https://www.youtube.com/watch?v=oa9cnWTpqP8" };
+            context.Videos.Add(video1);
+
 
             // добавляем роли в бд
             roleManager.Create(role1);
