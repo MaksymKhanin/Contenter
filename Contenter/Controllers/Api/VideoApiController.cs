@@ -1,5 +1,6 @@
 ﻿using Contenter.Infrastructure.Repository.DI.Abstract;
 using Contenter.Models;
+using Contenter.Parser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +25,10 @@ namespace Contenter.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<Video> GetVideos()
+        public IHttpActionResult GetVideos()
         {
             List<Video> videos = new List<Video>();
+            List<SiteModel> models = new List<SiteModel>();
             var videosList = db1.GetItemsList();
             foreach (var vidos in videosList)
             {
@@ -37,8 +39,9 @@ namespace Contenter.Controllers.Api
 
                 };
                 videos.Add(video);
+                models.Add(Site.GetModelSite(video.Link));
             }
-            return videos;
+            return Ok(models);
         }
 
         [HttpGet]
@@ -49,11 +52,14 @@ namespace Contenter.Controllers.Api
         }
 
         [HttpPost]
-        public void PostVideo([FromBody]Video video)
+        public IHttpActionResult PostVideo([FromBody]Video video)
         {
             
+
+
             db1.Create(video);
             db1.Save();
+            return Ok(Site.GetModelSite(video.Link));
         }
 
         [HttpPut]

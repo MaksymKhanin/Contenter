@@ -282,3 +282,6 @@ D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.DataMigration.resources
 D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.AddCompanyMigration2.resources
 D:\Contenter\Contenter\bin\Ninject.Web.WebApi.WebHost.dll
 D:\Contenter\Contenter\bin\Ninject.Web.WebApi.WebHost.xml
+D:\Contenter\Contenter\bin\HtmlAgilityPack.dll
+D:\Contenter\Contenter\bin\HtmlAgilityPack.pdb
+D:\Contenter\Contenter\bin\HtmlAgilityPack.xml

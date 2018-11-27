@@ -2,6 +2,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div style="position: relative">
+    <iframe id="vidos" 
+            style="position: absolute;              
+                   top: 50%;                        
+                   transform: translate(0, 50%);
+                   left: 25%;" 
+            class="vidos hide" width="600" height="350" src="https://www.youtube.com/embed/okj5MFqDvVA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 <div class="col-md-4">
 
     <div class=" col-sm-8">
@@ -21,8 +29,16 @@
     <div class=" col-sm-4"></div>
 </div>
 <div class="col-md-8 ">
-    <div class="col-sm-12 content-block"><h3 style="margin-top:50px">Content</h3></div>
-    <input id="txtLink" type="text" placeholder="Insert a link here..."></input>
+    <div class="col-sm-12 content-block">
+        <h3>Content</h3>
+
+        <div id="wrapper">
+            <div id="backer"></div>
+            
+        </div>
+    </div>
+    
+    <input style="margin-top:50px" id="txtLink" type="text" placeholder="Insert a link here..."></input>
     <button id="buttonSubmit">Submit</button>
 </div>
 
@@ -32,7 +48,13 @@
 <script>
 
     $(document).ready(function () {
+        load_new_content();
+        
+        
+
         $("#buttonSubmit").click(function () {
+
+            
 
             var video = { Link: $("#txtLink").val() };
 
@@ -42,11 +64,106 @@
                     data: JSON.stringify(video),
                     type: 'post',
                     contentType: "application/json;charset=utf-8",
-                    success: function () {
-                        alert("Added successfully");
+                    success: function (data, textStatus, xhr) {
+                        
+                       
+                        var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
+                        var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url +"</h5><h6>" + data.Description + "</h6>";
+
+                        $('#wrapper').append('<div id="item"></div>');
+                        $('#item').append(div);
+                        $('#item').append(image);
+                        $('#item').append('</div>');
+
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log('Error in Operation');
                     }
                 });
         });
     });
+
+    function load_new_content(){
+        $.ajax
+            ({
+                url: 'http://localhost:56222/api/VideoApi/GetVideos/',
+
+                type: 'get',
+                contentType: "application/json;charset=utf-8",
+                success: function (data, textStatus, xhr) {
+                    
+                    var i;
+                    for (i = 0; i < data.length; i++) {
+                        var image = '<img src="data:image/png;base64,' + data[i].Image + '" class="content-img" ></img>';
+                        var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>"+ data[i].Url +"</h5></div><h6>" + data[i].Description + "</h6>";
+
+                        $('#wrapper').append('<div id="item"></div>');
+                        $('#item').append(div);
+                        $('#item').append(image);
+                        $('#item').append('</div>');
+                    }
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+    }
+
+    function show() {
+        console.log("hi");
+        var link = $("#itId").val();
+        $.ajax({
+            url: 'http://localhost:56222/api/site/?link=' + link,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                var image = new Image();
+                image.src = 'data:image/png;base64,' + data.Image;
+                var div = "<div><h1>" + data.Title + "</h1><h2>" + data.WebSite + "</h2>" +
+                    "<div class='youtube' id='win3'><h4>" + data.Url + "</h4></div><h6>" + data.Description + "</h6>";
+                $('#item').append(div);
+                $('#item').append(image);
+                $('#item').append('</div>');
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+    };
+
+    $(document).on("click", "div.youtube", function () {
+        console.log(convertLink($(this).text()));
+        $('#vidos').attr('src', convertLink($(this).text()));
+        ShowOrHideVideo();
+    });
+    function ShowOrHideVideo() {
+        if ($('#backer').hasClass('backdrop')) {
+            $('#backer').removeClass('backdrop');
+            $('#vidos').hide();
+        }
+        else {
+            $('#backer').addClass('backdrop');
+            $('#vidos').show();
+            $('#vidos').removeClass('hide');
+        }
+    };
+    function convertLink(url) {
+        function getId(url) {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+
+            if (match && match[2].length == 11) {
+                return match[2];
+            } else {
+                return 'error';
+            }
+        }
+        var videoId = getId(url);
+        return "https://www.youtube.com/embed/" + videoId;
+    };
+
+
 
 </script>
