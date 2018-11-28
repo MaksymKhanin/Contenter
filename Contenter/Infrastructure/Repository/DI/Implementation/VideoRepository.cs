@@ -4,53 +4,59 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+
 
 namespace Contenter.Infrastructure.Repository.DI.Implementation
 {
     public class VideoRepository : IRepository<Video>
     {
+        
         private ApplicationDbContext db;
 
         public VideoRepository(ApplicationDbContext context)
         {
             this.db = context;
         }
-        public IEnumerable<Video> GetItemsList(int id)
+
+        
+
+        public async Task<IEnumerable<Video>> GetItemsListAsync(int id)
         {
-            return db.Videos;
+            return await db.Videos.ToListAsync();
         }
 
-        public IEnumerable<Video> GetItemsList()
+        public async Task<IEnumerable<Video>> GetItemsListAsync()
         {
-            return db.Videos;
+            return await db.Videos.ToListAsync();
         }
 
-        public Video GetItem(int id)
+        public async Task<Video> GetItemAsync(int id)
         {
-            return db.Videos.Find(id);
+            return await db.Videos.FindAsync(id);
         }
 
-        public void Create(Video video)
+        public async Task CreateAsync (Video video)
         {
             db.Videos.Add(video);
         }
 
-        public void Update(Video video)
+        public async Task UpdateAsync(Video video)
         {
             db.Entry(video).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            Video video = db.Videos.Find(id);
+            Video video = await db.Videos.FindAsync(id);
             if (video != null)
                 db.Videos.Remove(video);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         private bool disposed = false;

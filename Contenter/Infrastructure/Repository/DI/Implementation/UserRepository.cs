@@ -1,56 +1,63 @@
-﻿using System;
+﻿using Contenter.Infrastructure.Repository.DI.Abstract;
+using Contenter.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
-using Contenter.Models;
-using Contenter.Infrastructure.Repository.DI.Abstract;
+
 
 namespace Contenter.Infrastructure.Repository.DI.Implementation
 {
-    public class UserRepository: IRepository<User>
+    public class UserRepository : IRepository<User>
     {
+
         private ApplicationDbContext db;
 
         public UserRepository(ApplicationDbContext context)
         {
             this.db = context;
         }
-        public IEnumerable<User> GetItemsList(int id)
+
+
+
+        public async Task<IEnumerable<User>> GetItemsListAsync(int id)
+
         {
-            return db.Users;
+            return await db.Users.ToListAsync();
         }
 
-        public IEnumerable<User> GetItemsList()
+        public async Task<IEnumerable<User>> GetItemsListAsync()
         {
-            return db.Users;
+            return await db.Users.ToListAsync();
         }
 
-        public User GetItem(int id)
+        public async Task<User> GetItemAsync(int id)
         {
-            return db.Users.Find(id);
+            return await db.Users.FindAsync(id);
         }
 
-        public void Create(User user)
+        public async Task CreateAsync(User user)
         {
             db.Users.Add(user);
         }
 
-        public void Update(User user)
+        public async Task UpdateAsync(User user)
         {
             db.Entry(user).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            User user = db.Users.Find(id);
+            User user = await db.Users.FindAsync(id);
             if (user != null)
                 db.Users.Remove(user);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
 
         private bool disposed = false;

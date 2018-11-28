@@ -285,3 +285,5 @@ D:\Contenter\Contenter\bin\Ninject.Web.WebApi.WebHost.xml
 D:\Contenter\Contenter\bin\HtmlAgilityPack.dll
 D:\Contenter\Contenter\bin\HtmlAgilityPack.pdb
 D:\Contenter\Contenter\bin\HtmlAgilityPack.xml
+D:\Contenter\Contenter\bin\NLog.dll
+D:\Contenter\Contenter\bin\NLog.xml
