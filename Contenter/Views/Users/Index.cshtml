@@ -3,16 +3,16 @@
 }
 
 <div style="position: relative">
-    <iframe id="vidos" 
-            style="position: absolute;              
-                   top: 50%;                        
+    <iframe id="vidos"
+            style="position: absolute;
+                   top: 50%;
                    transform: translate(0, 50%);
-                   left: 25%;" 
+                   left: 25%;"
             class="vidos hide" width="600" height="350" src="https://www.youtube.com/embed/okj5MFqDvVA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div class="col-md-4">
 
-    <div class=" col-sm-8">
+    <div class=" col-sm-8 leftBar">
         <h2 class="contenter">Contentor</h2>
         <img src="~/Content/MaxPhoto.jpg" class="img-circle img-responsive userPhotoFrame">
         <h4 class="UserNickName">Максим Ханин</h4>
@@ -21,9 +21,10 @@
             <h4>125M</h4>
         </div>
         <div class="col-sm-6 Follow">Following<br><h4>300</h4></div>
-        <div class="search">
-            <input type="text" class="searchTerm" placeholder="Search">
-        </div>
+
+        <input type="text" class="searchTerm" placeholder="Search"></input>
+
+        <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
 
     </div>
     <div class=" col-sm-4"></div>
@@ -34,30 +35,45 @@
 
         <div id="wrapper">
             <div id="backer"></div>
-            
+
         </div>
     </div>
-    
+
     <input style="margin-top:50px" id="txtLink" type="text" placeholder="Insert a link here..."></input>
     <button id="buttonSubmit">Submit</button>
 </div>
 
+@*-------------------------------------------------------*@
+@*Popup Form*@
 
+<div id="modal_form">
+    <!-- Сaмo oкнo -->
+    <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
+    <!-- Тут любoе сoдержимoе -->
+    <div class="modalUserData">
+        <label>Имя</label><br>
+        <input id="userFirstName" type="text"></input><br>
+
+        <label>Фамилия</label><br>
+        <input id="userSirName" type="text"></input><br>
+
+        <label>Номер телефона</label><br>
+        <input id="userPhoneNumber" type="text"></input><br>
+
+        <button id="submitUserData">Ок</button>
+    </div>
+</div>
+<div id="overlay"></div><!-- Пoдлoжкa -->
+@*------------------------------------------------------------------*@
 
 
 <script>
 
     $(document).ready(function () {
         load_new_content();
-        
-        
 
         $("#buttonSubmit").click(function () {
-
-            
-
             var video = { Link: $("#txtLink").val() };
-
             $.ajax
                 ({
                     url: 'http://localhost:56222/api/VideoApi/PostVideoAsync/',
@@ -65,10 +81,8 @@
                     type: 'post',
                     contentType: "application/json;charset=utf-8",
                     success: function (data, textStatus, xhr) {
-                        
-                       
                         var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
-                        var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url +"</h5><h6>" + data.Description + "</h6>";
+                        var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url + "</h5><h6>" + data.Description + "</h6>";
 
                         $('#wrapper').append('<div id="item"></div>');
                         $('#item').append(div);
@@ -81,9 +95,31 @@
                     }
                 });
         });
+
+        $('a#go').click(function (event) { // лoвим клик пo ссылки с id="go"
+            event.preventDefault(); // выключaем стaндaртную рoль элементa
+            $('#overlay').fadeIn(400, // снaчaлa плaвнo пoкaзывaем темную пoдлoжку
+                function () { // пoсле выпoлнения предъидущей aнимaции
+                    $('#modal_form')
+                        .css('display', 'block') // убирaем у мoдaльнoгo oкнa display: none;
+                        .animate({ opacity: 1, top: '50%' }, 200); // плaвнo прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
+                });
+        });
+        /* Зaкрытие мoдaльнoгo oкнa, тут делaем тo же сaмoе нo в oбрaтнoм пoрядке */
+        $('#modal_close, #overlay').click(function () { // лoвим клик пo крестику или пoдлoжке
+            $('#modal_form')
+                .animate({ opacity: 0, top: '45%' }, 200,  // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
+                    function () { // пoсле aнимaции
+                        $(this).css('display', 'none'); // делaем ему display: none;
+                        $('#overlay').fadeOut(400); // скрывaем пoдлoжку
+                    }
+                );
+        });
+
+
     });
 
-    function load_new_content(){
+    function load_new_content() {
         $.ajax
             ({
                 url: 'http://localhost:56222/api/VideoApi/GetVideosAsync/',
@@ -91,11 +127,11 @@
                 type: 'get',
                 contentType: "application/json;charset=utf-8",
                 success: function (data, textStatus, xhr) {
-                    
+
                     var i;
                     for (i = 0; i < data.length; i++) {
                         var image = '<img src="data:image/png;base64,' + data[i].Image + '" class="content-img" ></img>';
-                        var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>"+ data[i].Url +"</h5></div><h6>" + data[i].Description + "</h6>";
+                        var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>" + data[i].Url + "</h5></div><h6>" + data[i].Description + "</h6>";
 
                         $('#wrapper').append('<div id="item"></div>');
                         $('#item').append(div);
@@ -164,6 +200,39 @@
         return "https://www.youtube.com/embed/" + videoId;
     };
 
+    $(document).on("click", "button#submitUserData", function () {
+        
+        console.log($("#userFirstName").val());
+        console.log($("#userSirName").val());
+        console.log($("#userPhoneNumber").val());
+
+        $.ajax
+            ({
+                url: 'http://localhost:56222/api/UsersApi/PostAsync/',
+
+                type: 'get',
+                contentType: "application/json;charset=utf-8",
+                success: function (data, textStatus, xhr) {
+
+                    var i;
+                    for (i = 0; i < data.length; i++) {
+                        var image = '<img src="data:image/png;base64,' + data[i].Image + '" class="content-img" ></img>';
+                        var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>" + data[i].Url + "</h5></div><h6>" + data[i].Description + "</h6>";
+
+                        $('#wrapper').append('<div id="item"></div>');
+                        $('#item').append(div);
+                        $('#item').append(image);
+                        $('#item').append('</div>');
+                    }
+
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                }
+            });
+    });
 
 
 </script>
+
+
