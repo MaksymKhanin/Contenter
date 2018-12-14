@@ -287,3 +287,4 @@ D:\Contenter\Contenter\bin\HtmlAgilityPack.pdb
 D:\Contenter\Contenter\bin\HtmlAgilityPack.xml
 D:\Contenter\Contenter\bin\NLog.dll
 D:\Contenter\Contenter\bin\NLog.xml
+D:\Contenter\Contenter\obj\Debug\Contenter.Migrations.AddCompanyMigration.resources

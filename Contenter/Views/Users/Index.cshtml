@@ -22,7 +22,7 @@
         </div>
         <div class="col-sm-6 Follow">Following<br><h4>300</h4></div>
 
-        <input type="text" class="searchTerm" placeholder="Search"></input>
+        <input type="text" class="searchTerm" id="searchInput" placeholder="Search"></input>
 
         <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
 
@@ -90,8 +90,9 @@
                         $('#item').append('</div>');
 
                     },
-                    error: function (xhr, textStatus, errorThrown) {
-                        console.log('Error in Operation');
+                    error: function (response) {
+                        console.log(response.responseJSON.Desc);
+                        alert(response.responseJSON.Desc);
                     }
                 });
         });
@@ -140,14 +141,15 @@
                     }
 
                 },
-                error: function (xhr, textStatus, errorThrown) {
-                    console.log('Error in Operation');
+                error: function (response) {
+                    console.log(response.responseJSON.Desc);
+                    alert(response.responseJSON.Desc);
                 }
             });
     }
 
     function show() {
-        console.log("hi");
+        
         var link = $("#itId").val();
         $.ajax({
             url: 'http://localhost:56222/api/site/?link=' + link,
@@ -170,7 +172,7 @@
     };
 
     $(document).on("click", "div.youtube", function () {
-        console.log(convertLink($(this).text()));
+        
         $('#vidos').attr('src', convertLink($(this).text()));
         ShowOrHideVideo();
     });
@@ -200,6 +202,7 @@
         return "https://www.youtube.com/embed/" + videoId;
     };
 
+
     $(document).on("click", "button#submitUserData", function () {
         
         console.log($("#userFirstName").val());
@@ -213,6 +216,7 @@
                 type: 'get',
                 contentType: "application/json;charset=utf-8",
                 success: function (data, textStatus, xhr) {
+
 
                     var i;
                     for (i = 0; i < data.length; i++) {
@@ -230,6 +234,42 @@
                     console.log('Error in Operation');
                 }
             });
+    });
+    function showMusic() {
+        console.log("hi");
+        var track = $("#itId").val();
+        $.ajax({
+            url: 'https://api.spotify.com/v1/search?q=' + track + '&type=track',
+            headers: {
+                'Authorization': 'Bearer ' +
+                    'BQAUednG23XvzNZDKq153Iz1coMI9mo6aQiPkcelEniaP8LzcP-_goftNqImkqazfl8dI1gh3s5AmLGk20eoM9o9YX7O4jMiL3NHAki5wU6-1aUm9Dt1v2kyGVbVwublw6Taz_Enjk1LrugF50ljtXA_M2ZMIpd4Rw',
+            },
+            type: 'GET',
+            dataType: 'json',
+
+            success: function (data, textStatus, xhr) {
+                console.log(data.tracks);
+                
+                for (var i = 0; i < data.tracks.items.length; i++) {
+                    var image = new Image();
+                    image.src = data.tracks.items[i].album.images[2].url;
+                    var div = "<div><h1>" + data.tracks.items[i].name + "</h1><h2>" + data.tracks.items[i].artists[0].name +
+                        "</h2><button src='" + data.tracks.items[i].id + "' class='listen'>Прослушать</button>";
+                    $('#item').append(div);
+                    $('#item').append(image);
+                    $('#item').append('</div>');
+
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+        });
+    };
+    $("#searchInput").keypress(function (e) {
+        if (e.which == 13) {
+            showMusic();
+        }
     });
 
 

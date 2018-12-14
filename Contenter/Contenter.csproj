@@ -237,6 +237,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Api\AudioApiController.cs" />
     <Compile Include="Controllers\Api\RootController.cs" />
     <Compile Include="Controllers\Api\UsersApiController.cs" />
     <Compile Include="Controllers\Api\VideoApiController.cs" />
@@ -247,6 +248,7 @@
     </Compile>
     <Compile Include="Infrastructure\Parser\Site.cs" />
     <Compile Include="Infrastructure\Repository\DI\Abstract\IRepository.cs" />
+    <Compile Include="Infrastructure\Repository\DI\Implementation\AudioRepository.cs" />
     <Compile Include="Infrastructure\Repository\DI\Implementation\UserRepository.cs" />
     <Compile Include="Infrastructure\Repository\DI\Implementation\VideoRepository.cs" />
     <Compile Include="Migrations\201811091453181_InitialCreate.cs" />
@@ -261,8 +263,13 @@
     <Compile Include="Migrations\201811261401273_AddCompanyMigration2.Designer.cs">
       <DependentUpon>201811261401273_AddCompanyMigration2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812041349304_AddCompanyMigration.cs" />
+    <Compile Include="Migrations\201812041349304_AddCompanyMigration.Designer.cs">
+      <DependentUpon>201812041349304_AddCompanyMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Audio.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ResponseMessage.cs" />
@@ -363,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811261401273_AddCompanyMigration2.resx">
       <DependentUpon>201811261401273_AddCompanyMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812041349304_AddCompanyMigration.resx">
+      <DependentUpon>201812041349304_AddCompanyMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

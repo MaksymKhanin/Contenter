@@ -78,13 +78,24 @@ namespace Contenter.Controllers.Api
         {
 
             var errorBlock = new ResponseMessage();
+           
             try
             {
                 if (video != null && ModelState.IsValid)
                 {
-                    await db1.CreateAsync(video);
-                    await db1.SaveAsync();
-                    return Ok(Site.GetModelSite(video.Link));
+                    Uri.TryCreate(video.Link, UriKind.RelativeOrAbsolute, out Uri videoLink);
+                    if (videoLink.IsAbsoluteUri == true)
+                    {
+                        await db1.CreateAsync(video);
+                        await db1.SaveAsync();
+                        return Ok(Site.GetModelSite(video.Link));
+                    }
+                    else
+                    {
+                        errorBlock = MakeErrorBlock("CLO001", "Не удалось добавить видео. Вставьте ссылку");
+                        return MakeCustomResponse(400, errorBlock);
+                    }
+                    
                 }
                 else
                 {

@@ -22,6 +22,8 @@ namespace Contenter.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Video> Videos { get; set; }
+        public DbSet<Audio> Audios { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -33,7 +35,7 @@ namespace Contenter.Models
         }
     }
 
-    public class DbInitializer:DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class DbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
@@ -45,7 +47,7 @@ namespace Contenter.Models
             var role2 = new IdentityRole { Name = "user" };
 
             // создаем Video
-            var video1 = new Video { Link= "https://www.youtube.com/watch?v=oa9cnWTpqP8" };
+            var video1 = new Video { Link = "https://www.youtube.com/watch?v=oa9cnWTpqP8" };
             context.Videos.Add(video1);
 
 
