@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div style="position: relative">
     <iframe id="vidos"
             style="position: absolute;
@@ -23,12 +23,24 @@
         <div class="col-sm-6 Follow">Following<br><h4>300</h4></div>
 
         <input type="text" class="searchTerm" id="searchInput" placeholder="Search"></input>
+        
+        <div id="searchContent" class="searchContent">
+            @*<div class="audioItem1">
+                <div class="audioItemImg1">
+                    
+                </div>
+                <div class="audioItemDesc1">
+                   
+                </div>
+            </div>*@
+        </div>
+        <div id="musics" style="text-align: center;"></div>
 
-        <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
+            <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
 
+        </div>
+        <div class=" col-sm-4"></div>
     </div>
-    <div class=" col-sm-4"></div>
-</div>
 <div class="col-md-8 ">
     <div class="col-sm-12 content-block">
         <h3>Content</h3>
@@ -235,43 +247,65 @@
                 }
             });
     });
-    function showMusic() {
-        console.log("hi");
-        var track = $("#itId").val();
+   
+
+
+
+    function showMusicSearch() {
+
+        
+
+        var track = $("#searchInput").val();
+        $('#searchContent').empty();
+        $('#searchContent').removeClass('dropdown-content');
+        if (track.length == 0) return;
         $.ajax({
-            url: 'https://api.spotify.com/v1/search?q=' + track + '&type=track',
-            headers: {
-                'Authorization': 'Bearer ' +
-                    'BQAUednG23XvzNZDKq153Iz1coMI9mo6aQiPkcelEniaP8LzcP-_goftNqImkqazfl8dI1gh3s5AmLGk20eoM9o9YX7O4jMiL3NHAki5wU6-1aUm9Dt1v2kyGVbVwublw6Taz_Enjk1LrugF50ljtXA_M2ZMIpd4Rw',
-            },
+            url: 'http://localhost:56222/api/AudioApi/GetSearchTrack?track=' + track + '&type=track&limit=10',
             type: 'GET',
+            contentType: "application/json;charset=utf-8",
             dataType: 'json',
-
             success: function (data, textStatus, xhr) {
-                console.log(data.tracks);
-                
-                for (var i = 0; i < data.tracks.items.length; i++) {
-                    var image = new Image();
-                    image.src = data.tracks.items[i].album.images[2].url;
-                    var div = "<div><h1>" + data.tracks.items[i].name + "</h1><h2>" + data.tracks.items[i].artists[0].name +
-                        "</h2><button src='" + data.tracks.items[i].id + "' class='listen'>Прослушать</button>";
-                    $('#item').append(div);
-                    $('#item').append(image);
-                    $('#item').append('</div>');
 
+                console.log(data);
+
+                for (var i = 0; i < data.length; i++) {
+
+                    //$('.audioItemImg1').append("<image src=" + data[i].Image + ">");
+                    //$('.audioItemDesc1').append("<h5>" + data[i].Name + "</h5>");
+                    //$('.audioItemDesc1').append("<h6>" + data[i].Duration + "</h6>");
+                    //$('.audioItemDesc1').append("<i class='fa fa-play listen' aria-hidden='true' id=" + data[i].Id + ">");
+
+                  //  $('#searchContent').append("<div style='width:100%; height:50px;'>");
+                    $('#searchContent').append("<image style='float:left;' src=" + data[i].Image + ">");
+                    $('#searchContent').append("<h5 style=''>" + data[i].Name + "</h5>");
+                    $('#searchContent').append("<h6 style='display:inline-block; margin-top: 0px !important;'>" + data[i].Duration + "</h6>");
+                    $('#searchContent').append("<i style='' class='fa fa-play listen' aria-hidden='true' id=" + data[i].Id + ">");
+                    $('#searchContent').append("<br >");
+                    $('#searchContent').append("<br >");
+                  //  $('#searchContent').append("</div >");
                 }
+                $('#searchContent').addClass('dropdown-content');
             },
             error: function (xhr, textStatus, errorThrown) {
-                console.log('Error in Operation');
+                alert("Error in getting Music");
             }
         });
     };
+    $(document).on("click", ".listen", function () {
+
+        var id = $(this).attr('id');
+        $('#musics').empty();
+        $('#musics').append("</i><iframe class='spotifyIframe' id=" + id + " src='https://open.spotify.com/embed/track/" + id + "' width='300' height='80' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>")
+
+
+    });
+    
+
     $("#searchInput").keypress(function (e) {
         if (e.which == 13) {
-            showMusic();
+            showMusicSearch();
         }
     });
-
 
 </script>
 

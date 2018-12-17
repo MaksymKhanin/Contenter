@@ -274,6 +274,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ResponseMessage.cs" />
     <Compile Include="Models\SiteModel.cs" />
+    <Compile Include="Models\SpotifyToken.cs" />
+    <Compile Include="Models\SpotifyTrack.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Video.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

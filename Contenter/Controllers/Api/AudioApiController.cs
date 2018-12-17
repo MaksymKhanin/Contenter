@@ -145,10 +145,19 @@ namespace Contenter.Controllers.Api
             }
 
         }
+        [HttpGet]
+        [Route("search/{track}")]
+        public async Task<IHttpActionResult> GetSearchTrack(string track)
+        {
+            return Ok();
+        }
         protected override void Dispose(bool disposing)
         {
-            db1.Dispose();
-            base.Dispose(disposing);
+            if (db1 != null)
+            {
+                db1.Dispose();
+                base.Dispose(disposing);
+            }
         }
     }
 }
