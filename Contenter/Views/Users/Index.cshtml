@@ -34,7 +34,7 @@
                 </div>
             </div>*@
         </div>
-        <div id="musics" style="text-align: center;"></div>
+       
 
             <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
 
@@ -43,6 +43,7 @@
     </div>
 <div class="col-md-8 ">
     <div class="col-sm-12 content-block">
+        <div id="musics" ></div>
         <h3>Content</h3>
 
         <div id="wrapper">
@@ -109,6 +110,36 @@
                 });
         });
 
+        $("#addMusic").click(function () {
+            var audio = {
+                Id: $("#txtLink").val(),
+                Name: $("#txtLink").val(),
+                Image: $("#txtLink").val(),
+                Duration: $("#txtLink").val()
+            };
+            $.ajax
+                ({
+                    url: 'http://localhost:56222/api/VideoApi/PostVideoAsync/',
+                    data: JSON.stringify(video),
+                    type: 'post',
+                    contentType: "application/json;charset=utf-8",
+                    success: function (data, textStatus, xhr) {
+                        var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
+                        var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url + "</h5><h6>" + data.Description + "</h6>";
+
+                        $('#wrapper').append('<div id="item"></div>');
+                        $('#item').append(div);
+                        $('#item').append(image);
+                        $('#item').append('</div>');
+
+                    },
+                    error: function (response) {
+                        console.log(response.responseJSON.Desc);
+                        alert(response.responseJSON.Desc);
+                    }
+                });
+        });
+
         $('a#go').click(function (event) { // лoвим клик пo ссылки с id="go"
             event.preventDefault(); // выключaем стaндaртную рoль элементa
             $('#overlay').fadeIn(400, // снaчaлa плaвнo пoкaзывaем темную пoдлoжку
@@ -128,6 +159,7 @@
                     }
                 );
         });
+
 
 
     });
@@ -280,6 +312,7 @@
                     $('#searchContent').append("<h5 style=''>" + data[i].Name + "</h5>");
                     $('#searchContent').append("<h6 style='display:inline-block; margin-top: 0px !important;'>" + data[i].Duration + "</h6>");
                     $('#searchContent').append("<i style='' class='fa fa-play listen' aria-hidden='true' id=" + data[i].Id + ">");
+                    $('#searchContent').append("<i style='' class='fa fa-plus' id='addMusic' onclick='' src=" + data[i].Id+">");
                     $('#searchContent').append("<br >");
                     $('#searchContent').append("<br >");
                   //  $('#searchContent').append("</div >");
@@ -296,8 +329,6 @@
         var id = $(this).attr('id');
         $('#musics').empty();
         $('#musics').append("</i><iframe class='spotifyIframe' id=" + id + " src='https://open.spotify.com/embed/track/" + id + "' width='300' height='80' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>")
-
-
     });
     
 

@@ -227,6 +227,10 @@ textarea {
 
 .spotifyIframe{
     
-    margin-top:200px;
-    margin-left:200px;
+    margin-top:25px;
+    z-index:5;
+}
+
+#addMusic{
+    margin-left:20px;
 }
