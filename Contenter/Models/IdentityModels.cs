@@ -23,6 +23,9 @@ namespace Contenter.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Video> Videos { get; set; }
         public DbSet<Audio> Audios { get; set; }
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<ContentItem> ContentItems { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

@@ -16,6 +16,9 @@ namespace Contenter.Util
         {
             Bind<IRepository<User>>().To<UserRepository>();
             Bind<IRepository<Video>>().To<VideoRepository>();
+            Bind<IRepository<Audio>>().To<AudioRepository>();
+            Bind<IRepository<Article>>().To<ArticleRepository>();
+            Bind<IRepository<ContentItem>>().To<ContentItemRepository>();
         }
     }
 }

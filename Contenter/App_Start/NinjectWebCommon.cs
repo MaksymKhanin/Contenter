@@ -82,6 +82,10 @@ namespace Contenter.App_Start
 
             kernel.Bind<IRepository<User>>().To<UserRepository>();
             kernel.Bind<IRepository<Video>>().To<VideoRepository>();
+            kernel.Bind<IRepository<Audio>>().To<AudioRepository>();
+            kernel.Bind<IRepository<Article>>().To<ArticleRepository>();
+            kernel.Bind<IRepository<ContentItem>>().To<ContentItemRepository>();
+
 
         }
     }
