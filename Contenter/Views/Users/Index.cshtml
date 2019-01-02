@@ -11,7 +11,6 @@
             class="vidos hide" width="600" height="350" src="https://www.youtube.com/embed/okj5MFqDvVA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div class="col-md-4">
-
     <div class=" col-sm-8 leftBar">
         <h2 class="contenter">Contentor</h2>
         <img src="~/Content/MaxPhoto.jpg" class="img-circle img-responsive userPhotoFrame">
@@ -21,44 +20,48 @@
             <h4>125M</h4>
         </div>
         <div class="col-sm-6 Follow">Following<br><h4>300</h4></div>
-
         <input type="text" class="searchTerm" id="searchInput" placeholder="Search"></input>
-        
+
         <div id="searchContent" class="searchContent">
             @*<div class="audioItem1">
-                <div class="audioItemImg1">
-                    
-                </div>
-                <div class="audioItemDesc1">
-                   
-                </div>
-            </div>*@
-        </div>
-       
+                    <div class="audioItemImg1">
 
-            <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
+                    </div>
+                    <div class="audioItemDesc1">
 
+                    </div>
+                </div>*@
         </div>
-        <div class=" col-sm-4"></div>
+
+        <h5 class="updateProfile"><a id="go">Редактировать</a></h5>
     </div>
+    <div class=" col-sm-4"></div>
+</div>
 <div class="col-md-8 ">
     <div class="col-sm-12 content-block">
-        <div id="musics" ></div>
+        <div id="musics"></div>
+        <button class="btn-info" value="Видео" id="ShowVideo">Видео</button>
+        <button class="btn-info" value="Музыка" id="ShowMusic">Музыка</button>
+        <button class="btn-info" value="Статьи" id="ShowArticles">Статьи</button>
         <h3>Content</h3>
-
-        <div id="wrapper">
-            <div id="backer"></div>
-
+        @*<div id="wrapper">
+                <div id="backer"></div>
+            </div>*@
+        <div id="video">
+            Видео
+        </div>
+        <div id="music" style="display:none">
+            Музыка
+        </div>
+        <div id="articles" style="display:none">
+            Статьи
         </div>
     </div>
-
     <input style="margin-top:50px" id="txtLink" type="text" placeholder="Insert a link here..."></input>
     <button id="buttonSubmit">Submit</button>
 </div>
-
 @*-------------------------------------------------------*@
 @*Popup Form*@
-
 <div id="modal_form">
     <!-- Сaмo oкнo -->
     <span id="modal_close">X</span> <!-- Кнoпкa зaкрыть -->
@@ -66,48 +69,90 @@
     <div class="modalUserData">
         <label>Имя</label><br>
         <input id="userFirstName" type="text"></input><br>
-
         <label>Фамилия</label><br>
         <input id="userSirName" type="text"></input><br>
-
         <label>Номер телефона</label><br>
         <input id="userPhoneNumber" type="text"></input><br>
-
         <button id="submitUserData">Ок</button>
     </div>
 </div>
 <div id="overlay"></div><!-- Пoдлoжкa -->
 @*------------------------------------------------------------------*@
 
-
 <script>
 
     $(document).ready(function () {
         load_new_content();
 
+        $('#ShowVideo').click(function () {
+            $('#articles').hide();
+            $('#music').hide();
+            $('#video').show();
+
+        });
+        $('#ShowMusic').click(function () {
+            $('#articles').hide();
+            $('#music').show();
+            $('#video').hide();
+
+        });
+        $('#ShowArticles').click(function () {
+            $('#articles').show();
+            $('#music').hide();
+            $('#video').hide();
+
+        });
         $("#buttonSubmit").click(function () {
-            var video = { Link: $("#txtLink").val() };
-            $.ajax
-                ({
-                    url: 'http://localhost:56222/api/VideoApi/PostVideoAsync/',
-                    data: JSON.stringify(video),
-                    type: 'post',
-                    contentType: "application/json;charset=utf-8",
-                    success: function (data, textStatus, xhr) {
-                        var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
-                        var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url + "</h5><h6>" + data.Description + "</h6>";
+            var isYoutube = false;
+            var link = { Link: $("#txtLink").val() };
+            $.get("http://localhost:56222/api/VideoApi/GetModelSite?link=" + link.Link, function (data) {
+                if (data.WebSite == "YouTube")
+                    isYoutube = true;
+            });
 
-                        $('#wrapper').append('<div id="item"></div>');
-                        $('#item').append(div);
-                        $('#item').append(image);
-                        $('#item').append('</div>');
+            if (isYoutube) {
+                $.ajax
+                    ({
+                        url: 'http://localhost:56222/api/VideoApi/PostVideoAsync/',
+                        data: JSON.stringify(link),
+                        type: 'post',
+                        contentType: "application/json;charset=utf-8",
+                        success: function (data, textStatus, xhr) {
+                            var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
+                            var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url + "</h5><h6>" + data.Description + "</h6>";
+                            $('#video').append(div);
+                            $('#video').append(image);
+                            $('#video').append('</div>');
 
-                    },
-                    error: function (response) {
-                        console.log(response.responseJSON.Desc);
-                        alert(response.responseJSON.Desc);
-                    }
-                });
+                        },
+                        error: function (response) {
+                            console.log(response.responseJSON.Desc);
+                            alert(response.responseJSON.Desc);
+                        }
+                    });
+            }
+            else {
+                $.ajax
+                    ({
+                        url: 'http://localhost:56222/api/ArticleApi/PostArticleAsync/',
+                        data: JSON.stringify(link),
+                        type: 'post',
+                        contentType: "application/json;charset=utf-8",
+                        success: function (data, textStatus, xhr) {
+                            console.log(data);
+                            var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
+                            var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url + "</h5><h6>" + data.Description + "</h6>";
+                            $('#articles').append(div);
+                            $('#articles').append(image);
+                            $('#articles').append('</div>');
+
+                        },
+                        error: function (response) {
+                            console.log(response.responseJSON.Desc);
+                            alert(response.responseJSON.Desc);
+                        }
+                    });
+            }
         });
 
         $("#addMusic").click(function () {
@@ -127,7 +172,7 @@
                         var image = '<img src="data:image/png;base64,' + data.Image + '" class="content-img" ></img>';
                         var div = "<div><h3>" + data.Title + "</h3><h4>" + data.WebSite + "</h4><h5>" + data.Url + "</h5><h6>" + data.Description + "</h6>";
 
-                        $('#wrapper').append('<div id="item"></div>');
+                        $('#video').append('<div id="item"></div>');
                         $('#item').append(div);
                         $('#item').append(image);
                         $('#item').append('</div>');
@@ -177,11 +222,56 @@
                     for (i = 0; i < data.length; i++) {
                         var image = '<img src="data:image/png;base64,' + data[i].Image + '" class="content-img" ></img>';
                         var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>" + data[i].Url + "</h5></div><h6>" + data[i].Description + "</h6>";
+                        $('#video').append(div);
+                        $('#video').append(image);
+                        $('#video').append('</div>');
+                    }
 
-                        $('#wrapper').append('<div id="item"></div>');
-                        $('#item').append(div);
-                        $('#item').append(image);
-                        $('#item').append('</div>');
+                },
+                error: function (response) {
+                    console.log(response.responseJSON.Desc);
+                    alert(response.responseJSON.Desc);
+                }
+            });
+        $.ajax
+            ({
+                url: 'http://localhost:56222/api/AudioApi/GetAudiosAsync/',
+
+                type: 'get',
+                contentType: "application/json;charset=utf-8",
+                success: function (data, textStatus, xhr) {
+
+                    var i;
+                    for (i = 0; i < data.length; i++) {
+                        var image = '<img src="' + data[i].Image + '" ></img>';
+                        var div = "<div><h3>" + data[i].Name + "</h3><h4>" + data[i].Duration + "</h4>";
+                        $('#music').append(div);
+                        $('#music').append(image);
+                        $('#music').append('</div>');
+                    }
+
+                },
+                error: function (response) {
+                    console.log(response.responseJSON.Desc);
+                    alert(response.responseJSON.Desc);
+                }
+            });
+        $.ajax
+            ({
+                url: 'http://localhost:56222/api/ArticleApi/GetArticlesAsync/',
+
+                type: 'get',
+                contentType: "application/json;charset=utf-8",
+                success: function (data, textStatus, xhr) {
+
+                    var i;
+                    for (i = 0; i < data.length; i++) {
+                        var image = '<img src="data:image/png;base64,' + data[i].Image + '" class="content-img" ></img>';
+                        var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>" + data[i].Url + "</h5></div><h6>" + data[i].Description + "</h6>";
+
+                        $('#articles').append(div);
+                        $('#articles').append(image);
+                        $('#articles').append('</div>');
                     }
 
                 },
@@ -193,7 +283,7 @@
     }
 
     function show() {
-        
+
         var link = $("#itId").val();
         $.ajax({
             url: 'http://localhost:56222/api/site/?link=' + link,
@@ -216,7 +306,7 @@
     };
 
     $(document).on("click", "div.youtube", function () {
-        
+
         $('#vidos').attr('src', convertLink($(this).text()));
         ShowOrHideVideo();
     });
@@ -248,7 +338,7 @@
 
 
     $(document).on("click", "button#submitUserData", function () {
-        
+
         console.log($("#userFirstName").val());
         console.log($("#userSirName").val());
         console.log($("#userPhoneNumber").val());
@@ -266,8 +356,7 @@
                     for (i = 0; i < data.length; i++) {
                         var image = '<img src="data:image/png;base64,' + data[i].Image + '" class="content-img" ></img>';
                         var div = "<div><h3>" + data[i].Title + "</h3><h4>" + data[i].WebSite + "</h4><div class='youtube'><h5>" + data[i].Url + "</h5></div><h6>" + data[i].Description + "</h6>";
-
-                        $('#wrapper').append('<div id="item"></div>');
+                        $('#video').append('<div id="item"></div>');
                         $('#item').append(div);
                         $('#item').append(image);
                         $('#item').append('</div>');
@@ -279,13 +368,13 @@
                 }
             });
     });
-   
+
 
 
 
     function showMusicSearch() {
 
-        
+
 
         var track = $("#searchInput").val();
         $('#searchContent').empty();
@@ -307,15 +396,15 @@
                     //$('.audioItemDesc1').append("<h6>" + data[i].Duration + "</h6>");
                     //$('.audioItemDesc1').append("<i class='fa fa-play listen' aria-hidden='true' id=" + data[i].Id + ">");
 
-                  //  $('#searchContent').append("<div style='width:100%; height:50px;'>");
-                    $('#searchContent').append("<image style='float:left;' src=" + data[i].Image + ">");
+                    //  $('#searchContent').append("<div style='width:100%; height:50px;'>");
+                    $('#searchContent').append("<image style='float:left;' src=" + data[i].Image + " width='70' height='70'>");
                     $('#searchContent').append("<h5 style=''>" + data[i].Name + "</h5>");
                     $('#searchContent').append("<h6 style='display:inline-block; margin-top: 0px !important;'>" + data[i].Duration + "</h6>");
                     $('#searchContent').append("<i style='' class='fa fa-play listen' aria-hidden='true' id=" + data[i].Id + ">");
-                    $('#searchContent').append("<i style='' class='fa fa-plus' id='addMusic' onclick='' src=" + data[i].Id+">");
+                    $('#searchContent').append("<i style='' class='fa fa-plus addMusic'  onclick='' src=" + data[i].Id + ">");
                     $('#searchContent').append("<br >");
                     $('#searchContent').append("<br >");
-                  //  $('#searchContent').append("</div >");
+                    //  $('#searchContent').append("</div >");
                 }
                 $('#searchContent').addClass('dropdown-content');
             },
@@ -325,12 +414,22 @@
         });
     };
     $(document).on("click", ".listen", function () {
-
         var id = $(this).attr('id');
         $('#musics').empty();
         $('#musics').append("</i><iframe class='spotifyIframe' id=" + id + " src='https://open.spotify.com/embed/track/" + id + "' width='300' height='80' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>")
     });
-    
+    $(document).on("click", ".addMusic", function () {
+        var id = $(this).attr('src');
+        $.post("http://localhost:56222/api/AudioApi/PostAudioAsync", { Id: 0, Link: id }).done(function (data) {
+            var image = '<img src="' + data.Image + '" ></img>';
+            var div = "<div><h3>" + data.Name + "</h3><h4>" + data.Duration + "</h4>";
+            $('#music').append(div);
+            $('#music').append(image);
+            $('#music').append('</div>');
+        });
+    });
+
+
 
     $("#searchInput").keypress(function (e) {
         if (e.which == 13) {
@@ -339,5 +438,4 @@
     });
 
 </script>
-
 

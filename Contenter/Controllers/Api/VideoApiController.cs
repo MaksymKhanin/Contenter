@@ -78,7 +78,7 @@ namespace Contenter.Controllers.Api
         {
 
             var errorBlock = new ResponseMessage();
-           
+
             try
             {
                 if (video != null && ModelState.IsValid)
@@ -95,7 +95,7 @@ namespace Contenter.Controllers.Api
                         errorBlock = MakeErrorBlock("CLO001", "Не удалось добавить видео. Вставьте ссылку");
                         return MakeCustomResponse(400, errorBlock);
                     }
-                    
+
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace Contenter.Controllers.Api
                         errorBlock = MakeErrorBlock("CLO001", "Не удалось изменить видео");
                         return MakeCustomResponse(400, errorBlock);
                     }
-                    
+
                 }
                 else
                 {
@@ -164,7 +164,7 @@ namespace Contenter.Controllers.Api
                 return MakeCustomResponse(400, errorBlock);
 
             }
-            
+
         }
         protected override void Dispose(bool disposing)
         {

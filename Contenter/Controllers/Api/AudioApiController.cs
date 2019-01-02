@@ -36,7 +36,12 @@ namespace Contenter.Controllers.Api
             try
             {
                 var audiosList = await db1.GetItemsListAsync();
-                return Ok(audiosList);
+                var list = new List<SpotifyTrack>();
+                foreach (var item in audiosList)
+                {
+                    list.Add(await GetTrackById(item.Link));
+                }
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -74,7 +79,7 @@ namespace Contenter.Controllers.Api
                 {
                     await db1.CreateAsync(audio);
                     await db1.SaveAsync();
-                    return Ok();
+                    return Ok(await GetTrackById(audio.Link));
                 }
                 else
                 {
@@ -144,12 +149,6 @@ namespace Contenter.Controllers.Api
 
             }
 
-        }
-        [HttpGet]
-        [Route("search/{track}")]
-        public async Task<IHttpActionResult> GetSearchTrack(string track)
-        {
-            return Ok();
         }
         protected override void Dispose(bool disposing)
         {

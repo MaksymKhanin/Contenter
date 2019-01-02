@@ -36,7 +36,12 @@ namespace Contenter.Controllers.Api
             try
             {
                 var articlesList = await db1.GetItemsListAsync();
-                return Ok(articlesList);
+                var modelSiteList = new List<SiteModel>();
+                foreach (var item in articlesList)
+                {
+                    modelSiteList.Add(GetModelSite(item.Link));
+                }
+                return Ok(modelSiteList);
             }
             catch (Exception ex)
             {
@@ -74,7 +79,7 @@ namespace Contenter.Controllers.Api
                 {
                     await db1.CreateAsync(article);
                     await db1.SaveAsync();
-                    return Ok();
+                    return Ok(GetModelSite(article.Link));
                 }
                 else
                 {
