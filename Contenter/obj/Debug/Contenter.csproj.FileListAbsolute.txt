@@ -441,3 +441,4 @@ C:\Users\Максим\Source\Repos\MaksymKhanin\Contenter\Contenter\obj\Debug\Co
 C:\Users\Максим\Source\Repos\MaksymKhanin\Contenter\Contenter\obj\Debug\Contenter.csproj.CopyComplete
 C:\Users\Максим\Source\Repos\MaksymKhanin\Contenter\Contenter\obj\Debug\Contenter.dll
 C:\Users\Максим\Source\Repos\MaksymKhanin\Contenter\Contenter\obj\Debug\Contenter.pdb
+C:\Users\Максим\Source\Repos\MaksymKhanin\Contenter\Contenter\bin\Swashbuckle.Core.dll
